@@ -11,7 +11,7 @@ Kanna is a conversational commerce platform helping local Indian sellers get dis
 - **Frontend:** Next.js + React (Vercel)
 - **Backend:** n8n workflows (DigitalOcean)
 - **Database:** Supabase (PostgreSQL)
-- **AI:** Claude + Gemini
+- **AI:** GPT-4 + Gemini Flash
 
 ## Folder Structure
 
