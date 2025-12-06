@@ -1,45 +1,68 @@
-const { formatIndianPhone, validateIndianPhone, validateEmail } = require('./contact');
+import { expect, test, describe } from 'vitest';
+import { formatIndianPhone, validateIndianPhone, validateEmail } from './contact.js';
 
-console.log('Running Contact Validation Tests...\n');
+describe('formatIndianPhone', () => {
+  test('prefixes 91 to 10 digit number', () => {
+    expect(formatIndianPhone('9876543210')).toBe('919876543210');
+  });
 
-let failed = false;
+  test('keeps existing 91 prefix', () => {
+    expect(formatIndianPhone('919876543210')).toBe('919876543210');
+  });
 
-function assert(condition, message) {
-    if (condition) {
-        console.log(`✅ PASS: ${message}`);
-    } else {
-        console.log(`❌ FAIL: ${message}`);
-        failed = true;
-    }
-}
+  test('removes spaces and prefixes 91', () => {
+    expect(formatIndianPhone('987 654 3210')).toBe('919876543210');
+  });
 
-// Test formatIndianPhone
-console.log('--- Testing formatIndianPhone ---');
-assert(formatIndianPhone('9876543210') === '919876543210', 'Should prefix 91 to 10 digit number');
-assert(formatIndianPhone('919876543210') === '919876543210', 'Should keep existing 91 prefix');
-assert(formatIndianPhone('987 654 3210') === '919876543210', 'Should remove spaces and prefix 91');
-assert(formatIndianPhone('91 987 654 3210') === '919876543210', 'Should remove spaces with existing 91');
+  test('removes spaces with existing 91', () => {
+    expect(formatIndianPhone('91 9876543210')).toBe('919876543210');
+  });
+});
 
-// Test validateIndianPhone
-console.log('\n--- Testing validateIndianPhone ---');
-assert(validateIndianPhone('9876543210') === true, 'Valid 10 digit Indian number');
-assert(validateIndianPhone('919876543210') === true, 'Valid 12 digit Indian number');
-assert(validateIndianPhone('987 654 3210') === true, 'Valid number with spaces');
-assert(validateIndianPhone('1234567890') === false, 'Invalid number (starts with 1)');
-assert(validateIndianPhone('8876543210') === true, 'Valid number (starts with 8)');
-assert(validateIndianPhone('987654321') === false, 'Invalid length (9 digits)');
+describe('validateIndianPhone', () => {
+  test('accepts valid 10 digit Indian number', () => {
+    expect(validateIndianPhone('9876543210')).toBe(true);
+  });
 
-// Test validateEmail
-console.log('\n--- Testing validateEmail ---');
-assert(validateEmail('test@example.com') === true, 'Valid email');
-assert(validateEmail('user.name@domain.co.in') === true, 'Valid email with subdomains');
-assert(validateEmail('invalid-email') === false, 'Invalid email (no @)');
-assert(validateEmail('@domain.com') === false, 'Invalid email (no local part)');
-assert(validateEmail('user@') === false, 'Invalid email (no domain)');
+  test('accepts valid 12 digit with 91 prefix', () => {
+    expect(validateIndianPhone('919876543210')).toBe(true);
+  });
 
-if (failed) {
-    console.log('\n❌ Some tests failed!');
-    process.exit(1);
-} else {
-    console.log('\n✅ All tests passed!');
-}
+  test('accepts number with spaces', () => {
+    expect(validateIndianPhone('987 654 3210')).toBe(true);
+  });
+
+  test('rejects number starting with 1', () => {
+    expect(validateIndianPhone('1234567890')).toBe(false);
+  });
+
+  test('accepts number starting with 8', () => {
+    expect(validateIndianPhone('8123456789')).toBe(true);
+  });
+
+  test('rejects 9 digit number', () => {
+    expect(validateIndianPhone('987654321')).toBe(false);
+  });
+});
+
+describe('validateEmail', () => {
+  test('accepts valid email', () => {
+    expect(validateEmail('test@example.com')).toBe(true);
+  });
+
+  test('accepts email with subdomain', () => {
+    expect(validateEmail('user@mail.example.com')).toBe(true);
+  });
+
+  test('rejects email without @', () => {
+    expect(validateEmail('testexample.com')).toBe(false);
+  });
+
+  test('rejects email without local part', () => {
+    expect(validateEmail('@example.com')).toBe(false);
+  });
+
+  test('rejects email without domain', () => {
+    expect(validateEmail('test@')).toBe(false);
+  });
+});
