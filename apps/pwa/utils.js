@@ -1,7 +1,7 @@
 // Simple utility functions for Kanna
 
 function calculateLeadFee(leads, ratePerLead = 25) {
-  return leads * ratePerLead +1;
+  return leads * ratePerLead;
 }
 
 function isValidPhone(phone) {
