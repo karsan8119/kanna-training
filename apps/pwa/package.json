@@ -5,17 +5,16 @@
   "description": "",
   "main": "contact.js",
   "scripts": {
-  "test": "vitest run",
-  "test:watch": "vitest",
-  "test:e2e": "playwright test",
-  "test:e2e:headed": "playwright test --headed"
-},
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.57.0",
+    "@playwright/test": "^1.52.0",
     "vitest": "^4.0.15"
   }
 }
