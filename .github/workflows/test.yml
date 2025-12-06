@@ -3,8 +3,14 @@ name: Run Tests
 on:
   push:
     branches: [main]
+    paths:
+      - 'apps/pwa/**'
+      - '.github/workflows/test.yml'
   pull_request:
     branches: [main]
+    paths:
+      - 'apps/pwa/**'
+      - '.github/workflows/test.yml'
 
 jobs:
   test:
@@ -19,5 +25,17 @@ jobs:
         with:
           node-version: '20'
       
-      - name: Run tests
-        run: node apps/pwa/utils.test.js
+      - name: Run all tests
+        run: |
+          echo "Finding and running all test files..."
+          failed=0
+          for f in apps/pwa/*.test.js; do
+            echo "Running $f"
+            if ! node "$f"; then
+              failed=1
+            fi
+          done
+          if [ $failed -eq 1 ]; then
+            exit 1
+          fi
+          echo "All tests passed!"
