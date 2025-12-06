@@ -1,0 +1,37 @@
+name: Scheduled Backup Demo
+
+on:
+  # Run every Sunday at 2:00 AM UTC
+  schedule:
+    - cron: '0 2 * * 0'
+  
+  # Also allow manual trigger for testing
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Show backup time
+        run: |
+          echo "🕐 Backup started at: $(date)"
+          echo "📁 Repository: ${{ github.repository }}"
+      
+      - name: Simulate backup process
+        run: |
+          echo "📦 Backing up workflows..."
+          ls -la .github/workflows/
+          echo ""
+          echo "📦 Backing up app files..."
+          ls -la apps/pwa/
+          echo ""
+          echo "✅ Backup simulation complete!"
+      
+      - name: Log completion
+        run: |
+          echo "🎉 Weekly backup completed successfully!"
+          echo "⏰ Next run: Next Sunday at 2:00 AM UTC"
