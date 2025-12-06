@@ -1,3 +1,4 @@
+// Kanna PWA Utility Functions - Updated Dec 2025
 // Simple utility functions for Kanna
 
 function calculateLeadFee(leads, ratePerLead = 25) {
