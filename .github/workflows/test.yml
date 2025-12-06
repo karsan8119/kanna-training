@@ -13,8 +13,9 @@ on:
       - '.github/workflows/test.yml'
 
 jobs:
-  test:
+  unit-tests:
     runs-on: ubuntu-latest
+    name: Unit Tests (Vitest)
     
     steps:
       - name: Checkout code
@@ -30,7 +31,35 @@ jobs:
           cd apps/pwa
           npm ci
       
-      - name: Run tests
+      - name: Run unit tests
         run: |
           cd apps/pwa
           npm test
+
+  e2e-tests:
+    runs-on: ubuntu-latest
+    name: E2E Tests (Playwright)
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install dependencies
+        run: |
+          cd apps/pwa
+          npm ci
+      
+      - name: Install Playwright browsers
+        run: |
+          cd apps/pwa
+          npx playwright install --with-deps chromium
+      
+      - name: Run E2E tests
+        run: |
+          cd apps/pwa
+          npm run test:e2e
