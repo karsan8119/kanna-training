@@ -35,7 +35,25 @@ describe('calculateDiscount', () => {
   test('calculates 50% discount', () => {
     expect(calculateDiscount(200, 50)).toBe(100);
   });
+  test('handles 0% discount', () => {
+    expect(calculateDiscount(100, 0)).toBe(100);
+  });
+  test('handles 100% discount', () => {
+    expect(calculateDiscount(100, 100)).toBe(0);
+  });
+  test('rounds to 2 decimal places', () => {
+    expect(calculateDiscount(100, 33.333)).toBe(66.67);
+  });
   test('throws error for negative discount', () => {
     expect(() => calculateDiscount(100, -5)).toThrow('Discount must be between 0 and 100');
+  });
+  test('throws error for discount above 100%', () => {
+    expect(() => calculateDiscount(100, 150)).toThrow('Discount must be between 0 and 100');
+  });
+  test('throws error for negative price', () => {
+    expect(() => calculateDiscount(-50, 10)).toThrow('Price cannot be negative');
+  });
+  test('throws error for invalid inputs', () => {
+    expect(() => calculateDiscount('abc', 10)).toThrow('Price and discount must be valid numbers');
   });
 });
