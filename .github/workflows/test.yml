@@ -25,17 +25,12 @@ jobs:
         with:
           node-version: '20'
       
-      - name: Run all tests
+      - name: Install dependencies
         run: |
-          echo "Finding and running all test files..."
-          failed=0
-          for f in apps/pwa/*.test.js; do
-            echo "Running $f"
-            if ! node "$f"; then
-              failed=1
-            fi
-          done
-          if [ $failed -eq 1 ]; then
-            exit 1
-          fi
-          echo "All tests passed!"
+          cd apps/pwa
+          npm ci
+      
+      - name: Run tests
+        run: |
+          cd apps/pwa
+          npm test

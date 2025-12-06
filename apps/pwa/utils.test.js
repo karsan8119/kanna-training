@@ -1,31 +1,34 @@
-const { calculateLeadFee, isValidPhone } = require('./utils');
+import { expect, test, describe } from 'vitest';
+import { calculateLeadFee, isValidPhone } from './utils.js';
 
-// Test 1: Lead fee calculation
-console.log('Test 1: Lead fee calculation');
-const fee = calculateLeadFee(5);
-if (fee === 125) {
-  console.log('✅ PASS: 5 leads × ₹25 = ₹125');
-} else {
-  console.log('❌ FAIL: Expected 125, got', fee);
-  process.exit(1);
-}
+describe('calculateLeadFee', () => {
+  test('calculates fee for 5 leads at default rate', () => {
+    expect(calculateLeadFee(5)).toBe(125);
+  });
 
-// Test 2: Valid phone number
-console.log('Test 2: Valid phone number');
-if (isValidPhone('9876543210')) {
-  console.log('✅ PASS: 9876543210 is valid');
-} else {
-  console.log('❌ FAIL: Should be valid');
-  process.exit(1);
-}
+  test('calculates fee with custom rate', () => {
+    expect(calculateLeadFee(5, 30)).toBe(150);
+  });
 
-// Test 3: Invalid phone number
-console.log('Test 3: Invalid phone number');
-if (!isValidPhone('1234567890')) {
-  console.log('✅ PASS: 1234567890 is invalid (starts with 1)');
-} else {
-  console.log('❌ FAIL: Should be invalid');
-  process.exit(1);
-}
+  test('returns 0 for 0 leads', () => {
+    expect(calculateLeadFee(0)).toBe(0);
+  });
+});
 
-console.log('\n✅ All tests passed!');
+describe('isValidPhone', () => {
+  test('accepts valid 10-digit Indian number', () => {
+    expect(isValidPhone('9876543210')).toBe(true);
+  });
+
+  test('accepts number starting with 6', () => {
+    expect(isValidPhone('6123456789')).toBe(true);
+  });
+
+  test('rejects number starting with 1', () => {
+    expect(isValidPhone('1234567890')).toBe(false);
+  });
+
+  test('rejects number with wrong length', () => {
+    expect(isValidPhone('987654321')).toBe(false);
+  });
+});

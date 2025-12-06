@@ -1,0 +1,17 @@
+{
+  "name": "pwa",
+  "version": "1.0.0",
+"type": "module",
+  "description": "",
+  "main": "contact.js",
+ "scripts": {
+  "test": "vitest run",
+  "test:watch": "vitest"
+},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vitest": "^4.0.15"
+  }
+}
