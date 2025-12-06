@@ -1,0 +1,19 @@
+name: Hello World
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Say Hello
+        run: echo "Hello from GitHub Actions!"
+      
+      - name: Show Date
+        run: date
+      
+      - name: Show Repository Info
+        run: echo "Repository is ${{ github.repository }}"
